@@ -200,6 +200,351 @@ Imagine you are offered the following game and given a $1,000 budget in a specia
 *Remember: Frequent commits are your safety net!*
 :::
 
+## R Pathway Solution 🎯
+
+This section provides a complete R implementation for all challenge questions. You can use this as a reference or starting point for your own analysis.
+
+### Setup and Libraries
+
+```{r}
+#| label: setup
+#| echo: true
+
+# Load required libraries
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(ggplot2)
+  library(scales)
+})
+
+# Set seed for reproducibility
+set.seed(123)
+```
+
+### Question 1: Expected Value Analysis
+
+```{r}
+#| label: expected-value
+#| echo: true
+#| fig-cap: Expected value calculation for the investment game
+
+# Parameters for the original game
+initial_wealth <- 1000
+heads_multiplier <- 1.5  # +50% gain
+tails_multiplier <- 0.6  # -40% loss
+probability_heads <- 0.5
+
+# Calculate expected value after one coin flip
+expected_value_one_flip <- probability_heads * (initial_wealth * heads_multiplier) + 
+                          (1 - probability_heads) * (initial_wealth * tails_multiplier)
+
+# Calculate expected return rate
+expected_return_rate <- (expected_value_one_flip - initial_wealth) / initial_wealth
+
+cat("Expected value after 1 coin flip: $", round(expected_value_one_flip, 2), "\n")
+cat("Expected return rate: ", round(expected_return_rate * 100, 2), "%\n")
+cat("Is expected value positive? ", expected_value_one_flip > initial_wealth, "\n")
+```
+
+### Question 2: Expectation vs. Reality Analysis
+
+```{r}
+#| label: expectation-analysis
+#| echo: true
+
+cat("ANALYSIS:\n")
+cat("=========\n")
+cat("Expected value: $", round(expected_value_one_flip, 2), "\n")
+cat("Initial wealth: $", initial_wealth, "\n")
+cat("Difference: $", round(expected_value_one_flip - initial_wealth, 2), "\n\n")
+
+if (expected_value_one_flip > initial_wealth) {
+  cat("The expected value is POSITIVE, suggesting the game is favorable.\n")
+  cat("However, this is misleading because it doesn't account for the multiplicative nature of the game.\n")
+  cat("In reality, the geometric mean return is what matters for long-term wealth growth.\n")
+} else {
+  cat("The expected value is NEGATIVE, suggesting the game is unfavorable.\n")
+}
+
+# Calculate geometric mean return
+geometric_mean_return <- sqrt(heads_multiplier * tails_multiplier)
+cat("\nGeometric mean return per flip:", round(geometric_mean_return, 4), "\n")
+cat("This means wealth will DECLINE over time (geometric mean < 1)\n")
+```
+
+### Question 3: Single Simulation
+
+```{r}
+#| label: single-simulation
+#| echo: true
+#| fig-cap: Single simulation showing wealth evolution over time
+
+# Function to simulate one path
+simulate_investment_path <- function(initial_wealth, n_periods, heads_mult, tails_mult) {
+  wealth <- initial_wealth
+  path <- numeric(n_periods + 1)
+  path[1] <- initial_wealth
+  
+  for (i in 1:n_periods) {
+    coin_flip <- rbinom(1, 1, 0.5)
+    if (coin_flip == 1) {
+      wealth <- wealth * heads_mult
+    } else {
+      wealth <- wealth * tails_mult
+    }
+    path[i + 1] <- wealth
+  }
+  
+  return(path)
+}
+
+# Simulate one path (assuming 35 years from age 20 to 55)
+n_periods <- 35
+single_path <- simulate_investment_path(initial_wealth, n_periods, heads_multiplier, tails_multiplier)
+
+# Create data frame for plotting
+simulation_data <- tibble(
+  age = 20:(20 + n_periods),
+  wealth = single_path
+)
+
+# Create time series plot
+ggplot(simulation_data, aes(x = age, y = wealth)) +
+  geom_line(color = "steelblue", linewidth = 1.2) +
+  geom_point(color = "darkblue", size = 2) +
+  geom_hline(yintercept = initial_wealth, color = "red", linetype = "dashed", linewidth = 1) +
+  labs(
+    title = "Investment Game: Single Simulation Path",
+    subtitle = "Wealth Evolution from Age 20 to 55",
+    x = "Age",
+    y = "Account Balance ($)",
+    caption = "Red line shows initial investment ($1,000)"
+  ) +
+  scale_y_continuous(labels = dollar_format()) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    plot.subtitle = element_text(size = 12, color = "gray50"),
+    axis.text = element_text(size = 10)
+  )
+
+# Show final results
+cat("SINGLE SIMULATION RESULTS:\n")
+cat("==========================\n")
+cat("Initial wealth: $", initial_wealth, "\n")
+cat("Final wealth: $", round(single_path[length(single_path)], 2), "\n")
+cat("Total return: ", round((single_path[length(single_path)] / initial_wealth - 1) * 100, 2), "%\n")
+cat("Are you happy? ", ifelse(single_path[length(single_path)] > initial_wealth, "YES!", "NO..."), "\n")
+```
+
+### Question 4: Multiple Simulations (100 runs)
+
+```{r}
+#| label: multiple-simulations
+#| echo: true
+#| fig-cap: Distribution of final wealth from 100 simulations
+
+# Run 100 simulations
+n_simulations <- 100
+final_wealths <- numeric(n_simulations)
+
+for (i in 1:n_simulations) {
+  path <- simulate_investment_path(initial_wealth, n_periods, heads_multiplier, tails_multiplier)
+  final_wealths[i] <- path[length(path)]
+}
+
+# Create data frame for analysis
+simulation_results <- tibble(
+  simulation = 1:n_simulations,
+  final_wealth = final_wealths
+)
+
+# Create histogram
+ggplot(simulation_results, aes(x = final_wealth)) +
+  geom_histogram(bins = 20, fill = "lightcoral", alpha = 0.8, color = "black") +
+  geom_vline(xintercept = initial_wealth, color = "red", linetype = "dashed", linewidth = 1.5) +
+  geom_vline(xintercept = mean(final_wealths), color = "blue", linetype = "solid", linewidth = 1) +
+  labs(
+    title = "Distribution of Final Wealth (100 Simulations)",
+    subtitle = "Investment Game from Age 20 to 55",
+    x = "Final Wealth ($)",
+    y = "Frequency",
+    caption = "Red line: Initial investment ($1,000)\nBlue line: Mean final wealth"
+  ) +
+  scale_x_continuous(labels = dollar_format(), trans = "log10") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    plot.subtitle = element_text(size = 12, color = "gray50")
+  )
+
+# Summary statistics
+summary_stats <- simulation_results %>%
+  summarise(
+    mean_wealth = mean(final_wealth),
+    median_wealth = median(final_wealth),
+    min_wealth = min(final_wealth),
+    max_wealth = max(final_wealth),
+    prob_above_initial = mean(final_wealth > initial_wealth)
+  )
+
+cat("MULTIPLE SIMULATIONS RESULTS (100 runs):\n")
+cat("========================================\n")
+print(summary_stats)
+
+cat("\nAre you happy with these results?\n")
+cat("The median wealth is $", round(median(final_wealths), 2), 
+    " which is ", ifelse(median(final_wealths) > initial_wealth, "above", "below"), 
+    " the initial investment.\n")
+cat("Only ", round(mean(final_wealths > initial_wealth) * 100, 1), 
+    "% of simulations resulted in wealth above the initial $1,000.\n")
+```
+
+### Question 5: Probability Analysis
+
+```{r}
+#| label: probability-analysis
+#| echo: true
+
+# Calculate probability of wealth > $1,000 at age 55
+prob_above_1000 <- mean(final_wealths > 1000)
+
+cat("PROBABILITY ANALYSIS:\n")
+cat("====================\n")
+cat("Probability of wealth > $1,000 at age 55: ", round(prob_above_1000, 3), "\n")
+cat("This means there's a ", round(prob_above_1000 * 100, 1), 
+    "% chance of having more than your initial investment.\n")
+cat("Conversely, there's a ", round((1 - prob_above_1000) * 100, 1), 
+    "% chance of losing money.\n")
+
+# Additional probability insights
+prob_above_5000 <- mean(final_wealths > 5000)
+prob_above_10000 <- mean(final_wealths > 10000)
+
+cat("\nAdditional probabilities:\n")
+cat("P(wealth > $5,000): ", round(prob_above_5000, 3), "\n")
+cat("P(wealth > $10,000): ", round(prob_above_10000, 3), "\n")
+```
+
+### Question 6: Modified Strategy Comparison
+
+```{r}
+#| label: modified-strategy
+#| echo: true
+#| fig-cap: Comparison between original and modified strategies
+
+# Modified strategy: bet exactly 50% of current balance each time
+simulate_modified_strategy <- function(initial_wealth, n_periods) {
+  wealth <- initial_wealth
+  path <- numeric(n_periods + 1)
+  path[1] <- initial_wealth
+  
+  for (i in 1:n_periods) {
+    # Bet exactly 50% of current wealth
+    bet_amount <- wealth * 0.5
+    remaining_wealth <- wealth - bet_amount
+    
+    coin_flip <- rbinom(1, 1, 0.5)
+    if (coin_flip == 1) {
+      # Win: bet increases by 50%
+      bet_result <- bet_amount * 1.5
+    } else {
+      # Lose: bet decreases by 40%
+      bet_result <- bet_amount * 0.6
+    }
+    
+    wealth <- remaining_wealth + bet_result
+    path[i + 1] <- wealth
+  }
+  
+  return(path)
+}
+
+# Run 100 simulations for modified strategy
+modified_final_wealths <- numeric(n_simulations)
+
+for (i in 1:n_simulations) {
+  path <- simulate_modified_strategy(initial_wealth, n_periods)
+  modified_final_wealths[i] <- path[length(path)]
+}
+
+# Create comparison data frame
+comparison_data <- tibble(
+  strategy = rep(c("Original", "Modified"), each = n_simulations),
+  final_wealth = c(final_wealths, modified_final_wealths)
+)
+
+# Create comparison plot
+ggplot(comparison_data, aes(x = final_wealth, fill = strategy)) +
+  geom_histogram(alpha = 0.7, bins = 20, position = "identity") +
+  geom_vline(xintercept = 1000, color = "red", linetype = "dashed", linewidth = 1) +
+  geom_vline(xintercept = 10000, color = "green", linetype = "dashed", linewidth = 1) +
+  facet_wrap(~strategy, ncol = 1) +
+  labs(
+    title = "Strategy Comparison: Final Wealth Distributions",
+    subtitle = "Original vs Modified Investment Strategies",
+    x = "Final Wealth ($)",
+    y = "Frequency",
+    caption = "Red line: $1,000 threshold\nGreen line: $10,000 threshold"
+  ) +
+  scale_x_continuous(labels = dollar_format(), trans = "log10") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    plot.subtitle = element_text(size = 12, color = "gray50"),
+    legend.position = "none"
+  )
+
+# Calculate probabilities for modified strategy
+prob_above_1000_modified <- mean(modified_final_wealths > 1000)
+prob_above_10000_modified <- mean(modified_final_wealths > 10000)
+
+cat("MODIFIED STRATEGY COMPARISON:\n")
+cat("============================\n")
+cat("Original Strategy:\n")
+cat("  P(wealth > $1,000): ", round(prob_above_1000, 3), "\n")
+cat("  P(wealth > $10,000): ", round(prob_above_10000, 3), "\n\n")
+
+cat("Modified Strategy:\n")
+cat("  P(wealth > $1,000): ", round(prob_above_1000_modified, 3), "\n")
+cat("  P(wealth > $10,000): ", round(prob_above_10000_modified, 3), "\n\n")
+
+cat("COMPARISON:\n")
+cat("P(wealth > $10,000) is ", 
+    ifelse(prob_above_10000_modified > prob_above_10000, "HIGHER", "LOWER"), 
+    " in the modified strategy.\n")
+cat("Difference: ", round((prob_above_10000_modified - prob_above_10000) * 100, 1), " percentage points\n")
+```
+
+### Summary and Insights
+
+```{r}
+#| label: summary-insights
+#| echo: true
+
+cat("KEY INSIGHTS FROM THE SIMULATION:\n")
+cat("=================================\n\n")
+
+cat("1. EXPECTED VALUE DECEPTION:\n")
+cat("   - Expected value suggests the game is favorable\n")
+cat("   - But geometric mean shows wealth will decline over time\n")
+cat("   - This is a classic example of why expected value can be misleading\n\n")
+
+cat("2. PROBABILITY OF SUCCESS:\n")
+cat("   - Only ", round(prob_above_1000 * 100, 1), "% chance of beating initial investment\n")
+cat("   - ", round((1 - prob_above_1000) * 100, 1), "% chance of losing money\n\n")
+
+cat("3. STRATEGY COMPARISON:\n")
+cat("   - Modified strategy (betting 50%) shows different risk profile\n")
+cat("   - P(wealth > $10,000): Original = ", round(prob_above_10000, 3), 
+    ", Modified = ", round(prob_above_10000_modified, 3), "\n\n")
+
+cat("4. SIMULATION WISDOM:\n")
+cat("   - Simulation reveals the true nature of multiplicative processes\n")
+cat("   - Intuition often fails with compound effects\n")
+cat("   - Always run simulations to understand complex systems!\n")
+```
+
 ## Essential Simulation Concepts 🎯 {#sec-simulation-concepts}
 
 Before diving into the challenge, let's review the key simulation concepts you'll need. These examples will prepare you for the investment game analysis.

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulation Challenge - Monte Carlo Analysis</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 { color: #2c3e50; }
+        h2 { color: #34495e; border-bottom: 2px solid #3498db; padding-bottom: 5px; }
+        .callout {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .callout-warning {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+        .callout-tip {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+        code {
+            background: #f1f2f6;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .emoji { font-size: 1.2em; }
+    </style>
+</head>
+<body>
+    <h1><span class="emoji">🎲</span> Simulation Challenge - Monte Carlo Analysis</h1>
+    <h2>Challenge Overview</h2>
+    
+    <p><strong>Your Mission:</strong> Create a comprehensive Quarto document that simulates one or two investment strategies, analyzes the results, and demonstrates your ability to present counter-intuitive findings compellingly. Then render the document to HTML and deploy it via GitHub Pages from a new repository called "simulationChallenge."</p>
+    
+    <div class="callout callout-warning">
+        <h3><span class="emoji">⚠️</span> AI Partnership Required</h3>
+        <p>This challenge pushes boundaries intentionally. You'll tackle problems that normally require weeks of study, but with Cursor AI as your partner (and your brain keeping it honest), you can accomplish more than you thought possible.</p>
+        <p><strong>The new reality:</strong> The four stages of competence are Ignorance → Awareness → Learning → Mastery. AI lets us produce Mastery-level work while operating primarily in the Awareness stage. I focus on awareness training, you leverage AI for execution, and together we create outputs that used to require years of dedicated study.</p>
+    </div>
+    
+    <h2>The Investment Game <span class="emoji">🎯</span></h2>
+    
+    <h3>Original Game Strategy</h3>
+    <div class="callout">
+        <p>Imagine you are offered the following game and given a $1,000 budget in a special account to play the game: I will flip a coin, and if it comes up heads, we increase your account's balance by 50%; if it comes up tails, we reduce your account's balance by 40%. We are not only doing this once, but we will do it once per year until you turn 55. When you turn 55, you will receive the balance in your account.</p>
+    </div>
+    
+    <h2>Challenge Requirements <span class="emoji">📋</span></h2>
+    
+    <h3>Questions to Answer for 75% Grade on Challenge</h3>
+    <ol>
+        <li><strong>Expected Value Analysis:</strong> What is the "expected value" of your account balance after 1 coin flip for the original game?</li>
+        <li><strong>Expectation vs. Reality:</strong> Is the expected value positive or negative? Do you expect your account to be worth more or less than $1,000 based on this result?</li>
+        <li><strong>Single Simulation:</strong> Run one simulation showing the dynamics of your account balance over time. Make an object-oriented matplotlib OR ggplot2 plot showing your simulated account balance over time (i.e. as you age). Comment on the results, are you happy?</li>
+    </ol>
+    
+    <h3>Questions to Answer for 85% Grade on Challenge</h3>
+    <ol start="4">
+        <li><strong>Multiple Simulations:</strong> Run 100 simulations modelling the dynamics of your account balance over time. Make an object-oriented matplotlib OR ggplot2 plot showing a probability distribution of the 100 simulated account balance at age 55. Comment on the results, are you happy? Why or why not?</li>
+    </ol>
+    
+    <h3>Questions to Answer for 95% Grade on Challenge</h3>
+    <ol start="5">
+        <li><strong>Probability Analysis:</strong> Based on the 100 simulations above, what is the probability that your account balance will be greater than $1,000 at age 55?</li>
+    </ol>
+    
+    <h3>Questions to Answer for 100% Grade on Challenge</h3>
+    <ol start="6">
+        <li><strong>Strategy Comparison:</strong> Run 100 simulations for the modified game strategy. What is the probability that your account balance will be greater than $10,000 at age 55? Is this probability higher or lower than the probability in the original game?</li>
+    </ol>
+    
+    <h3>Modified Game Strategy</h3>
+    <div class="callout">
+        <p>Imagine you are offered the following game and given a $1,000 budget in a special account to play the game: I will flip a coin, and if it comes up heads, we increase your bet by 50%; if it comes up tails, we reduce your bet by 40%. You must bet exactly 50% of your current account balance on each flip, and this 50% is locked in for each round. We are not only doing this once, but we will do it once per year until you turn 55. When you turn 55, you will receive the balance in your account.</p>
+    </div>
+    
+    <div class="callout callout-tip">
+        <h3><span class="emoji">💡</span> Pro Tip: Source File Reference</h3>
+        <p><strong>Need help with Quarto syntax?</strong> You can find the complete source <code>.qmd</code> file for this challenge at:</p>
+        <p><strong>GitHub Repository:</strong> <a href="https://github.com/flyaflya/buad442Fall2025/blob/main/challenges/03-Simulation-Challenge/simulationChallenge.qmd">flyaflya/buad442Fall2025/challenges/03-Simulation-Challenge/simulationChallenge.qmd</a></p>
+        <p>This is a great resource for understanding Quarto syntax and learning from the complete working example!</p>
+    </div>
+    
+    <h2>Getting Started Tips</h2>
+    
+    <div class="callout">
+        <h3><span class="emoji">🎯</span> Navy SEALs Motto</h3>
+        <blockquote>"Slow is Smooth and Smooth is Fast"</blockquote>
+        <p><em>Take your time to understand the simulation mechanics, plan your approach carefully, and execute with precision. Rushing through this challenge will only lead to errors and confusion.</em></p>
+    </div>
+    
+    <ul>
+        <li><strong>Start Simple:</strong> Begin with a single simulation to understand the mechanics</li>
+        <li><strong>Document Everything:</strong> Explain your reasoning and interpret your results</li>
+        <li><strong>Set Seeds:</strong> Always set random seeds for reproducible results</li>
+        <li><strong>Total time to complete:</strong> ~3-4 hours for the 100% grade <span class="emoji">⏱️</span></li>
+        <li><strong>Good luck, and remember simulation will steer you right even when intuition will steer you wrong!</strong> <span class="emoji">🎲</span></li>
+    </ul>
+    
+    <div class="callout callout-warning">
+        <h3><span class="emoji">💾</span> Important: Save Your Work Frequently!</h3>
+        <p><strong>Before you start coding:</strong> Make sure to commit your work often using the Source Control panel in Cursor (Ctrl+Shift+G or Cmd+Shift+G). This prevents the AI from overwriting your progress and ensures you don't lose your work.</p>
+        <p><strong>Commit after each major step:</strong></p>
+        <ul>
+            <li>After completing each simulation example</li>
+            <li>After finishing each challenge question</li>
+            <li>Before asking the AI for help with new code</li>
+        </ul>
+        <p><em>Remember: Frequent commits are your safety net!</em></p>
+    </div>
+</body>
+</html>

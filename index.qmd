@@ -5,9 +5,13 @@ format:
   html: default
   pdf: default
 execute:
-  echo: true
+  echo: false
   eval: true
 ---
+```{r}
+library(reticulate)
+use_python("C:/Users/ryanf/Desktop/Python311/python.exe", required = TRUE)
+```
 
 # 🎲 Simulation Challenge - Monte Carlo Analysis
 

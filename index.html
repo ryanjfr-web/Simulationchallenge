@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Simulation Challenge</title>
+<title>Simulation Challenge - Ryan Freer</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -2436,10 +2436,7 @@ border: 0;
   <li><a href="#game-strategy-analysis" id="toc-game-strategy-analysis" class="nav-link active" data-scroll-target="#game-strategy-analysis">Game Strategy Analysis</a>
   <ul class="collapse">
   <li><a href="#problem-statement" id="toc-problem-statement" class="nav-link" data-scroll-target="#problem-statement">Problem Statement</a></li>
-  <li><a href="#generative-model" id="toc-generative-model" class="nav-link" data-scroll-target="#generative-model">Generative Model</a></li>
-  <li><a href="#simulation-setup" id="toc-simulation-setup" class="nav-link" data-scroll-target="#simulation-setup">Simulation Setup</a></li>
-  <li><a href="#monte-carlo-simulation" id="toc-monte-carlo-simulation" class="nav-link" data-scroll-target="#monte-carlo-simulation">Monte Carlo Simulation</a></li>
-  <li><a href="#visualizations" id="toc-visualizations" class="nav-link" data-scroll-target="#visualizations">Visualizations</a>
+  <li><a href="#generative-model" id="toc-generative-model" class="nav-link" data-scroll-target="#generative-model">Generative Model</a>
   <ul class="collapse">
   <li><a href="#single-simulation" id="toc-single-simulation" class="nav-link" data-scroll-target="#single-simulation">Single Simulation</a></li>
   <li><a href="#multiple-simulations" id="toc-multiple-simulations" class="nav-link" data-scroll-target="#multiple-simulations">Multiple Simulations</a></li>
@@ -2461,7 +2458,7 @@ border: 0;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Simulation Challenge</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">Simulation Challenge - Ryan Freer</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 <p class="subtitle lead">Generative Models and Monte Carlo Simulation</p>
 </div>
 
@@ -2498,15 +2495,6 @@ border: 0;
 <li>Wₜ = 0.6 × Wₜ₋₁ if Cₜ = 0 (tails)</li>
 </ul></li>
 </ul>
-</section>
-<section id="simulation-setup" class="level2">
-<h2 class="anchored" data-anchor-id="simulation-setup">Simulation Setup</h2>
-</section>
-<section id="monte-carlo-simulation" class="level2">
-<h2 class="anchored" data-anchor-id="monte-carlo-simulation">Monte Carlo Simulation</h2>
-</section>
-<section id="visualizations" class="level2">
-<h2 class="anchored" data-anchor-id="visualizations">Visualizations</h2>
 <section id="single-simulation" class="level3">
 <h3 class="anchored" data-anchor-id="single-simulation">Single Simulation</h3>
 <div class="cell">
@@ -2557,7 +2545,7 @@ border: 0;
 <pre><code>[1] 0.05</code></pre>
 </div>
 </div>
-<p><strong>Answer:</strong> The expected value after 1 coin flip is $1,050, representing a 5% expected return.</p>
+<p><strong>Answer:</strong> The expected value after 1 coin flip is $1,050, representing a 5% expected return. This return is small compared to the initial investment of $1000. However it is just the simulation of one flip. It is not guaranteed to be positive. We would need to run more simulations to get a more accurate representation.</p>
 </section>
 <section id="question-2-expectation-vs.-reality" class="level3">
 <h3 class="anchored" data-anchor-id="question-2-expectation-vs.-reality">Question 2: Expectation vs. Reality</h3>
@@ -2570,7 +2558,7 @@ border: 0;
 <pre><code>[1] 0.05</code></pre>
 </div>
 </div>
-<p><strong>Answer:</strong> The expected value is <strong>positive</strong>. Each year, the expected return is 5%, so after 30 years, the expected account balance would be $4,321.94. This is significantly more than the initial $1,000 investment.</p>
+<p><strong>Answer:</strong> The expected value is <strong>positive</strong>. Each year, the expected return is 5%, so after 30 years, the expected account balance would be $4,321.94. This is significantly more than the initial invesment of $1000.</p>
 </section>
 <section id="question-3-single-simulation" class="level3">
 <h3 class="anchored" data-anchor-id="question-3-single-simulation">Question 3: Single Simulation</h3>
@@ -2590,7 +2578,7 @@ border: 0;
 <pre><code>Total return:  704.3 %</code></pre>
 </div>
 </div>
-<p><strong>Analysis:</strong> <em>[Your analysis of the single simulation results here]</em></p>
+<p><strong>Analysis:</strong> The single simulation shows an extremely positive return, but the return is not guaranteed. It is possible to lose money as seen in the next question with 100 simulations. The expected value is positive, but the return is not guaranteed wiht many outliers like this one that will prop up the mean balance.</p>
 </section>
 <section id="question-4-multiple-simulations" class="level3">
 <h3 class="anchored" data-anchor-id="question-4-multiple-simulations">Question 4: Multiple Simulations</h3>
@@ -2622,7 +2610,7 @@ border: 0;
 <pre><code>Maximum final balance: $ 20,106.56 </code></pre>
 </div>
 </div>
-<p><strong>Analysis:</strong> <em>[Your analysis of the multiple simulation results here]</em></p>
+<p><strong>Analysis:</strong> The mean balance is higher than the initial investment of $1000. However, there are many outliers that are much higher than the mean. This is evident by seing how low the median balance is compared to the mean. It is likely that one will end up with a balance much lower than the mean, and lower than the initial investment of $1000.</p>
 </section>
 <section id="question-5-probability-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="question-5-probability-analysis">Question 5: Probability Analysis</h3>
@@ -2679,7 +2667,7 @@ border: 0;
 Key Result: The probability of ending with more than $1,000 is  28 %</code></pre>
 </div>
 </div>
-<p><strong>Answer:</strong> Based on the 100 simulations, the probability that your account balance will be greater than $1,000 at age 55 is <strong>28%</strong>.</p>
+<p><strong>Answer:</strong> Based on the 100 simulations, the probability that your account balance will be greater than $1,000 at age 55 is <strong>28%</strong>. This probability is not not high at all, barely better than a 1 in 4 chance. It way more likely to end up with a balance less than $1,000. This is a low probability, but it is not a guarantee. It is possible to end up with a balance greater than $1,000, with the probability of having a balnce over $10,000 being a mere 0.04%.</p>
 <!-- -->
 
 </section>
@@ -3139,7 +3127,7 @@ Key Result: The probability of ending with more than $1,000 is  28 %</code></pre
   });
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;Simulation Challenge&quot;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;Simulation Challenge - Ryan Freer&quot;</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> &quot;Generative Models and Monte Carlo Simulation&quot;</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html: </span></span>
@@ -3173,7 +3161,7 @@ Key Result: The probability of ending with more than $1,000 is  28 %</code></pre
 <span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Wₜ = 1.5 × Wₜ₋₁ if Cₜ = 1 (heads)</span>
 <span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Wₜ = 0.6 × Wₜ₋₁ if Cₜ = 0 (tails)</span>
 <span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## Simulation Setup</span></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup}</span></span>
 <span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Load required libraries (install if needed)</span></span>
@@ -3233,7 +3221,7 @@ Key Result: The probability of ending with more than $1,000 is  28 %</code></pre
 <span id="cb14-93"><a href="#cb14-93" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb14-94"><a href="#cb14-94" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb14-95"><a href="#cb14-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-96"><a href="#cb14-96" aria-hidden="true" tabindex="-1"></a><span class="fu">## Monte Carlo Simulation</span></span>
+<span id="cb14-96"><a href="#cb14-96" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-97"><a href="#cb14-97" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-98"><a href="#cb14-98" aria-hidden="true" tabindex="-1"></a><span class="in">```{r simulation}</span></span>
 <span id="cb14-99"><a href="#cb14-99" aria-hidden="true" tabindex="-1"></a><span class="co"># Run 100 simulations</span></span>
@@ -3254,7 +3242,7 @@ Key Result: The probability of ending with more than $1,000 is  28 %</code></pre
 <span id="cb14-114"><a href="#cb14-114" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb14-115"><a href="#cb14-115" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb14-116"><a href="#cb14-116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-117"><a href="#cb14-117" aria-hidden="true" tabindex="-1"></a><span class="fu">## Visualizations</span></span>
+<span id="cb14-117"><a href="#cb14-117" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-118"><a href="#cb14-118" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-119"><a href="#cb14-119" aria-hidden="true" tabindex="-1"></a><span class="fu">### Single Simulation</span></span>
 <span id="cb14-120"><a href="#cb14-120" aria-hidden="true" tabindex="-1"></a></span>
@@ -3334,7 +3322,7 @@ Key Result: The probability of ending with more than $1,000 is  28 %</code></pre
 <span id="cb14-194"><a href="#cb14-194" aria-hidden="true" tabindex="-1"></a>expected_return_rate</span>
 <span id="cb14-195"><a href="#cb14-195" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb14-196"><a href="#cb14-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-197"><a href="#cb14-197" aria-hidden="true" tabindex="-1"></a>**Answer:** The expected value after 1 coin flip is $<span class="in">`r format(round(expected_value_one_flip, 2), big.mark = &quot;,&quot;)`</span>, representing a <span class="in">`r round(expected_return_rate * 100, 1)`</span>% expected return.</span>
+<span id="cb14-197"><a href="#cb14-197" aria-hidden="true" tabindex="-1"></a>**Answer:** The expected value after 1 coin flip is $<span class="in">`r format(round(expected_value_one_flip, 2), big.mark = &quot;,&quot;)`</span>, representing a <span class="in">`r round(expected_return_rate * 100, 1)`</span>% expected return. This return is small compared to the initial investment of $1000. However it is just the simulation of one flip. It is not guaranteed to be positive. We would need to run more simulations to get a more accurate representation.</span>
 <span id="cb14-198"><a href="#cb14-198" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-199"><a href="#cb14-199" aria-hidden="true" tabindex="-1"></a><span class="fu">### Question 2: Expectation vs. Reality</span></span>
 <span id="cb14-200"><a href="#cb14-200" aria-hidden="true" tabindex="-1"></a></span>
@@ -3353,7 +3341,7 @@ Key Result: The probability of ending with more than $1,000 is  28 %</code></pre
 <span id="cb14-213"><a href="#cb14-213" aria-hidden="true" tabindex="-1"></a>annual_expected_return</span>
 <span id="cb14-214"><a href="#cb14-214" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb14-215"><a href="#cb14-215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-216"><a href="#cb14-216" aria-hidden="true" tabindex="-1"></a>**Answer:** The expected value is **positive**. Each year, the expected return is <span class="in">`r round(annual_expected_return * 100, 1)`</span>%, so after 30 years, the expected account balance would be $<span class="in">`r format(round(expected_value_30_years, 2), big.mark = &quot;,&quot;)`</span>. This is significantly more than the initial $1,000 investment.</span>
+<span id="cb14-216"><a href="#cb14-216" aria-hidden="true" tabindex="-1"></a>**Answer:** The expected value is **positive**. Each year, the expected return is <span class="in">`r round(annual_expected_return * 100, 1)`</span>%, so after 30 years, the expected account balance would be $<span class="in">`r format(round(expected_value_30_years, 2), big.mark = &quot;,&quot;)`</span>. This is significantly more than the initial invesment of $1000.</span>
 <span id="cb14-217"><a href="#cb14-217" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-218"><a href="#cb14-218" aria-hidden="true" tabindex="-1"></a><span class="fu">### Question 3: Single Simulation</span></span>
 <span id="cb14-219"><a href="#cb14-219" aria-hidden="true" tabindex="-1"></a></span>
@@ -3382,94 +3370,102 @@ Key Result: The probability of ending with more than $1,000 is  28 %</code></pre
 <span id="cb14-242"><a href="#cb14-242" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
 <span id="cb14-243"><a href="#cb14-243" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>())</span>
 <span id="cb14-244"><a href="#cb14-244" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-245"><a href="#cb14-245" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(single_plot)</span>
-<span id="cb14-246"><a href="#cb14-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-247"><a href="#cb14-247" aria-hidden="true" tabindex="-1"></a><span class="co"># Show final result</span></span>
-<span id="cb14-248"><a href="#cb14-248" aria-hidden="true" tabindex="-1"></a>final_balance <span class="ot">&lt;-</span> single_simulation[<span class="fu">length</span>(single_simulation)]</span>
-<span id="cb14-249"><a href="#cb14-249" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Final account balance: $&quot;</span>, <span class="fu">format</span>(<span class="fu">round</span>(final_balance, <span class="dv">2</span>), <span class="at">big.mark =</span> <span class="st">&quot;,&quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb14-250"><a href="#cb14-250" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Total return: &quot;</span>, <span class="fu">round</span>((final_balance <span class="sc">-</span> initial_wealth) <span class="sc">/</span> initial_wealth <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>), <span class="st">&quot;%</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb14-251"><a href="#cb14-251" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-252"><a href="#cb14-252" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-253"><a href="#cb14-253" aria-hidden="true" tabindex="-1"></a>**Analysis:** *[Your analysis of the single simulation results here]*</span>
-<span id="cb14-254"><a href="#cb14-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-255"><a href="#cb14-255" aria-hidden="true" tabindex="-1"></a><span class="fu">### Question 4: Multiple Simulations</span></span>
+<span id="cb14-245"><a href="#cb14-245" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the plot</span></span>
+<span id="cb14-246"><a href="#cb14-246" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(single_plot)</span>
+<span id="cb14-247"><a href="#cb14-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-248"><a href="#cb14-248" aria-hidden="true" tabindex="-1"></a><span class="co"># Also save as PNG for easy viewing</span></span>
+<span id="cb14-249"><a href="#cb14-249" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;single_simulation_plot.png&quot;</span>, single_plot, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span>
+<span id="cb14-250"><a href="#cb14-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-251"><a href="#cb14-251" aria-hidden="true" tabindex="-1"></a><span class="co"># Show final result</span></span>
+<span id="cb14-252"><a href="#cb14-252" aria-hidden="true" tabindex="-1"></a>final_balance <span class="ot">&lt;-</span> single_simulation[<span class="fu">length</span>(single_simulation)]</span>
+<span id="cb14-253"><a href="#cb14-253" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Final account balance: $&quot;</span>, <span class="fu">format</span>(<span class="fu">round</span>(final_balance, <span class="dv">2</span>), <span class="at">big.mark =</span> <span class="st">&quot;,&quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb14-254"><a href="#cb14-254" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Total return: &quot;</span>, <span class="fu">round</span>((final_balance <span class="sc">-</span> initial_wealth) <span class="sc">/</span> initial_wealth <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>), <span class="st">&quot;%</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb14-255"><a href="#cb14-255" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb14-256"><a href="#cb14-256" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-257"><a href="#cb14-257" aria-hidden="true" tabindex="-1"></a>**Run 100 simulations modelling the dynamics of your account balance over time. Make an object-oriented ggplot2 plot showing a probability distribution of the 100 simulated account balance at age 55. Comment on the results, are you happy? Why or why not?**</span>
+<span id="cb14-257"><a href="#cb14-257" aria-hidden="true" tabindex="-1"></a>**Analysis:** The single simulation shows an extremely positive return, but the return is not guaranteed. It is possible to lose money as seen in the next question with 100 simulations. The expected value is positive, but the return is not guaranteed wiht many outliers like this one that will prop up the mean balance. </span>
 <span id="cb14-258"><a href="#cb14-258" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-259"><a href="#cb14-259" aria-hidden="true" tabindex="-1"></a><span class="in">```{r multiple-simulations-detailed}</span></span>
-<span id="cb14-260"><a href="#cb14-260" aria-hidden="true" tabindex="-1"></a><span class="co"># Create detailed probability distribution plot</span></span>
-<span id="cb14-261"><a href="#cb14-261" aria-hidden="true" tabindex="-1"></a>distribution_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">final_wealth =</span> final_wealths), <span class="fu">aes</span>(<span class="at">x =</span> final_wealth)) <span class="sc">+</span></span>
-<span id="cb14-262"><a href="#cb14-262" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">25</span>, <span class="at">fill =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">size =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb14-263"><a href="#cb14-263" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> initial_wealth, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb14-264"><a href="#cb14-264" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(final_wealths), <span class="at">color =</span> <span class="st">&quot;darkgreen&quot;</span>, <span class="at">linetype =</span> <span class="st">&quot;solid&quot;</span>, <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb14-265"><a href="#cb14-265" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> <span class="fu">dollar_format</span>(), <span class="at">trans =</span> <span class="st">&quot;log10&quot;</span>) <span class="sc">+</span></span>
-<span id="cb14-266"><a href="#cb14-266" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribution of Final Account Balances (100 Simulations)&quot;</span>,</span>
-<span id="cb14-267"><a href="#cb14-267" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="fu">paste</span>(<span class="st">&quot;Mean: $&quot;</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">mean</span>(final_wealths), <span class="dv">2</span>), <span class="at">big.mark =</span> <span class="st">&quot;,&quot;</span>), </span>
-<span id="cb14-268"><a href="#cb14-268" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;| Median: $&quot;</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">median</span>(final_wealths), <span class="dv">2</span>), <span class="at">big.mark =</span> <span class="st">&quot;,&quot;</span>)),</span>
-<span id="cb14-269"><a href="#cb14-269" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Final Account Balance at Age 55 ($)&quot;</span>,</span>
-<span id="cb14-270"><a href="#cb14-270" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Frequency&quot;</span>,</span>
-<span id="cb14-271"><a href="#cb14-271" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Red dashed line: Initial investment ($1,000)</span><span class="sc">\n</span><span class="st">Green solid line: Mean final balance&quot;</span>) <span class="sc">+</span></span>
-<span id="cb14-272"><a href="#cb14-272" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb14-273"><a href="#cb14-273" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb14-274"><a href="#cb14-274" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">color =</span> <span class="st">&quot;darkblue&quot;</span>),</span>
-<span id="cb14-275"><a href="#cb14-275" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
-<span id="cb14-276"><a href="#cb14-276" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">hjust =</span> <span class="dv">0</span>),</span>
-<span id="cb14-277"><a href="#cb14-277" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb14-278"><a href="#cb14-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-279"><a href="#cb14-279" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(distribution_plot)</span>
-<span id="cb14-280"><a href="#cb14-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-281"><a href="#cb14-281" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary statistics</span></span>
-<span id="cb14-282"><a href="#cb14-282" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Summary Statistics (100 Simulations):</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb14-283"><a href="#cb14-283" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Mean final balance: $&quot;</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">mean</span>(final_wealths), <span class="dv">2</span>), <span class="at">big.mark =</span> <span class="st">&quot;,&quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb14-284"><a href="#cb14-284" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Median final balance: $&quot;</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">median</span>(final_wealths), <span class="dv">2</span>), <span class="at">big.mark =</span> <span class="st">&quot;,&quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb14-285"><a href="#cb14-285" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Standard deviation: $&quot;</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">sd</span>(final_wealths), <span class="dv">2</span>), <span class="at">big.mark =</span> <span class="st">&quot;,&quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb14-286"><a href="#cb14-286" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Minimum final balance: $&quot;</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">min</span>(final_wealths), <span class="dv">2</span>), <span class="at">big.mark =</span> <span class="st">&quot;,&quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb14-287"><a href="#cb14-287" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Maximum final balance: $&quot;</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">max</span>(final_wealths), <span class="dv">2</span>), <span class="at">big.mark =</span> <span class="st">&quot;,&quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb14-288"><a href="#cb14-288" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-289"><a href="#cb14-289" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-290"><a href="#cb14-290" aria-hidden="true" tabindex="-1"></a>**Analysis:** *[Your analysis of the multiple simulation results here]*</span>
-<span id="cb14-291"><a href="#cb14-291" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-292"><a href="#cb14-292" aria-hidden="true" tabindex="-1"></a><span class="fu">### Question 5: Probability Analysis</span></span>
-<span id="cb14-293"><a href="#cb14-293" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-294"><a href="#cb14-294" aria-hidden="true" tabindex="-1"></a>**Based on the 100 simulations above, what is the probability that your account balance will be greater than $1,000 at age 55?**</span>
-<span id="cb14-295"><a href="#cb14-295" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-296"><a href="#cb14-296" aria-hidden="true" tabindex="-1"></a><span class="in">```{r probability-analysis}</span></span>
-<span id="cb14-297"><a href="#cb14-297" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate probability of ending with more than $1,000</span></span>
-<span id="cb14-298"><a href="#cb14-298" aria-hidden="true" tabindex="-1"></a>prob_above_1000 <span class="ot">&lt;-</span> <span class="fu">mean</span>(final_wealths <span class="sc">&gt;</span> initial_wealth)</span>
-<span id="cb14-299"><a href="#cb14-299" aria-hidden="true" tabindex="-1"></a>prob_below_1000 <span class="ot">&lt;-</span> <span class="fu">mean</span>(final_wealths <span class="sc">&lt;</span> initial_wealth)</span>
-<span id="cb14-300"><a href="#cb14-300" aria-hidden="true" tabindex="-1"></a>prob_equal_1000 <span class="ot">&lt;-</span> <span class="fu">mean</span>(final_wealths <span class="sc">==</span> initial_wealth)</span>
+<span id="cb14-259"><a href="#cb14-259" aria-hidden="true" tabindex="-1"></a><span class="fu">### Question 4: Multiple Simulations</span></span>
+<span id="cb14-260"><a href="#cb14-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-261"><a href="#cb14-261" aria-hidden="true" tabindex="-1"></a>**Run 100 simulations modelling the dynamics of your account balance over time. Make an object-oriented ggplot2 plot showing a probability distribution of the 100 simulated account balance at age 55. Comment on the results, are you happy? Why or why not?**</span>
+<span id="cb14-262"><a href="#cb14-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-263"><a href="#cb14-263" aria-hidden="true" tabindex="-1"></a><span class="in">```{r multiple-simulations-detailed}</span></span>
+<span id="cb14-264"><a href="#cb14-264" aria-hidden="true" tabindex="-1"></a><span class="co"># Create detailed probability distribution plot</span></span>
+<span id="cb14-265"><a href="#cb14-265" aria-hidden="true" tabindex="-1"></a>distribution_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">final_wealth =</span> final_wealths), <span class="fu">aes</span>(<span class="at">x =</span> final_wealth)) <span class="sc">+</span></span>
+<span id="cb14-266"><a href="#cb14-266" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">25</span>, <span class="at">fill =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">size =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb14-267"><a href="#cb14-267" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> initial_wealth, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb14-268"><a href="#cb14-268" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(final_wealths), <span class="at">color =</span> <span class="st">&quot;darkgreen&quot;</span>, <span class="at">linetype =</span> <span class="st">&quot;solid&quot;</span>, <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb14-269"><a href="#cb14-269" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> <span class="fu">dollar_format</span>(), <span class="at">trans =</span> <span class="st">&quot;log10&quot;</span>) <span class="sc">+</span></span>
+<span id="cb14-270"><a href="#cb14-270" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribution of Final Account Balances (100 Simulations)&quot;</span>,</span>
+<span id="cb14-271"><a href="#cb14-271" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="fu">paste</span>(<span class="st">&quot;Mean: $&quot;</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">mean</span>(final_wealths), <span class="dv">2</span>), <span class="at">big.mark =</span> <span class="st">&quot;,&quot;</span>), </span>
+<span id="cb14-272"><a href="#cb14-272" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;| Median: $&quot;</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">median</span>(final_wealths), <span class="dv">2</span>), <span class="at">big.mark =</span> <span class="st">&quot;,&quot;</span>)),</span>
+<span id="cb14-273"><a href="#cb14-273" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Final Account Balance at Age 55 ($)&quot;</span>,</span>
+<span id="cb14-274"><a href="#cb14-274" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Frequency&quot;</span>,</span>
+<span id="cb14-275"><a href="#cb14-275" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Red dashed line: Initial investment ($1,000)</span><span class="sc">\n</span><span class="st">Green solid line: Mean final balance&quot;</span>) <span class="sc">+</span></span>
+<span id="cb14-276"><a href="#cb14-276" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb14-277"><a href="#cb14-277" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb14-278"><a href="#cb14-278" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">color =</span> <span class="st">&quot;darkblue&quot;</span>),</span>
+<span id="cb14-279"><a href="#cb14-279" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb14-280"><a href="#cb14-280" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">hjust =</span> <span class="dv">0</span>),</span>
+<span id="cb14-281"><a href="#cb14-281" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb14-282"><a href="#cb14-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-283"><a href="#cb14-283" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the plot</span></span>
+<span id="cb14-284"><a href="#cb14-284" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(distribution_plot)</span>
+<span id="cb14-285"><a href="#cb14-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-286"><a href="#cb14-286" aria-hidden="true" tabindex="-1"></a><span class="co"># Also save as PNG for easy viewing</span></span>
+<span id="cb14-287"><a href="#cb14-287" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;distribution_plot.png&quot;</span>, distribution_plot, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span>
+<span id="cb14-288"><a href="#cb14-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-289"><a href="#cb14-289" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary statistics</span></span>
+<span id="cb14-290"><a href="#cb14-290" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Summary Statistics (100 Simulations):</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb14-291"><a href="#cb14-291" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Mean final balance: $&quot;</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">mean</span>(final_wealths), <span class="dv">2</span>), <span class="at">big.mark =</span> <span class="st">&quot;,&quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb14-292"><a href="#cb14-292" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Median final balance: $&quot;</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">median</span>(final_wealths), <span class="dv">2</span>), <span class="at">big.mark =</span> <span class="st">&quot;,&quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb14-293"><a href="#cb14-293" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Standard deviation: $&quot;</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">sd</span>(final_wealths), <span class="dv">2</span>), <span class="at">big.mark =</span> <span class="st">&quot;,&quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb14-294"><a href="#cb14-294" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Minimum final balance: $&quot;</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">min</span>(final_wealths), <span class="dv">2</span>), <span class="at">big.mark =</span> <span class="st">&quot;,&quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb14-295"><a href="#cb14-295" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Maximum final balance: $&quot;</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">max</span>(final_wealths), <span class="dv">2</span>), <span class="at">big.mark =</span> <span class="st">&quot;,&quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb14-296"><a href="#cb14-296" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-297"><a href="#cb14-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-298"><a href="#cb14-298" aria-hidden="true" tabindex="-1"></a>**Analysis:** The mean balance is higher than the initial investment of $1000. However, there are many outliers that are much higher than the mean. This is evident by seing how low the median balance is compared to the mean. It is likely that one will end up with a balance much lower than the mean, and lower than the initial investment of $1000.</span>
+<span id="cb14-299"><a href="#cb14-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-300"><a href="#cb14-300" aria-hidden="true" tabindex="-1"></a><span class="fu">### Question 5: Probability Analysis</span></span>
 <span id="cb14-301"><a href="#cb14-301" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-302"><a href="#cb14-302" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate additional probability metrics</span></span>
-<span id="cb14-303"><a href="#cb14-303" aria-hidden="true" tabindex="-1"></a>prob_above_5000 <span class="ot">&lt;-</span> <span class="fu">mean</span>(final_wealths <span class="sc">&gt;</span> <span class="dv">5000</span>)</span>
-<span id="cb14-304"><a href="#cb14-304" aria-hidden="true" tabindex="-1"></a>prob_above_10000 <span class="ot">&lt;-</span> <span class="fu">mean</span>(final_wealths <span class="sc">&gt;</span> <span class="dv">10000</span>)</span>
-<span id="cb14-305"><a href="#cb14-305" aria-hidden="true" tabindex="-1"></a>prob_below_100 <span class="ot">&lt;-</span> <span class="fu">mean</span>(final_wealths <span class="sc">&lt;</span> <span class="dv">100</span>)</span>
-<span id="cb14-306"><a href="#cb14-306" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-307"><a href="#cb14-307" aria-hidden="true" tabindex="-1"></a><span class="co"># Create probability summary</span></span>
-<span id="cb14-308"><a href="#cb14-308" aria-hidden="true" tabindex="-1"></a>probability_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb14-309"><a href="#cb14-309" aria-hidden="true" tabindex="-1"></a>  <span class="at">Condition =</span> <span class="fu">c</span>(<span class="st">&quot;Greater than $1,000&quot;</span>, <span class="st">&quot;Less than $1,000&quot;</span>, <span class="st">&quot;Equal to $1,000&quot;</span>, </span>
-<span id="cb14-310"><a href="#cb14-310" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;Greater than $5,000&quot;</span>, <span class="st">&quot;Greater than $10,000&quot;</span>, <span class="st">&quot;Less than $100&quot;</span>),</span>
-<span id="cb14-311"><a href="#cb14-311" aria-hidden="true" tabindex="-1"></a>  <span class="at">Probability =</span> <span class="fu">c</span>(prob_above_1000, prob_below_1000, prob_equal_1000,</span>
-<span id="cb14-312"><a href="#cb14-312" aria-hidden="true" tabindex="-1"></a>                  prob_above_5000, prob_above_10000, prob_below_100),</span>
-<span id="cb14-313"><a href="#cb14-313" aria-hidden="true" tabindex="-1"></a>  <span class="at">Percentage =</span> <span class="fu">c</span>(prob_above_1000, prob_below_1000, prob_equal_1000,</span>
-<span id="cb14-314"><a href="#cb14-314" aria-hidden="true" tabindex="-1"></a>                 prob_above_5000, prob_above_10000, prob_below_100) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb14-315"><a href="#cb14-315" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-316"><a href="#cb14-316" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-317"><a href="#cb14-317" aria-hidden="true" tabindex="-1"></a><span class="co"># Format the probabilities</span></span>
-<span id="cb14-318"><a href="#cb14-318" aria-hidden="true" tabindex="-1"></a>probability_summary<span class="sc">$</span>Probability <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="fu">round</span>(probability_summary<span class="sc">$</span>Probability, <span class="dv">3</span>))</span>
-<span id="cb14-319"><a href="#cb14-319" aria-hidden="true" tabindex="-1"></a>probability_summary<span class="sc">$</span>Percentage <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="fu">round</span>(probability_summary<span class="sc">$</span>Percentage, <span class="dv">1</span>), <span class="st">&quot;%&quot;</span>)</span>
-<span id="cb14-320"><a href="#cb14-320" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-321"><a href="#cb14-321" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(probability_summary,</span>
-<span id="cb14-322"><a href="#cb14-322" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Probability Analysis of Final Account Balances&quot;</span>,</span>
-<span id="cb14-323"><a href="#cb14-323" aria-hidden="true" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Condition&quot;</span>, <span class="st">&quot;Probability&quot;</span>, <span class="st">&quot;Percentage&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb14-324"><a href="#cb14-324" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>),</span>
-<span id="cb14-325"><a href="#cb14-325" aria-hidden="true" tabindex="-1"></a>                <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb14-326"><a href="#cb14-326" aria-hidden="true" tabindex="-1"></a>                <span class="at">position =</span> <span class="st">&quot;center&quot;</span>)</span>
-<span id="cb14-327"><a href="#cb14-327" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-328"><a href="#cb14-328" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Key Result: The probability of ending with more than $1,000 is &quot;</span>, </span>
-<span id="cb14-329"><a href="#cb14-329" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(prob_above_1000 <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>), <span class="st">&quot;%</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb14-330"><a href="#cb14-330" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-331"><a href="#cb14-331" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-332"><a href="#cb14-332" aria-hidden="true" tabindex="-1"></a>**Answer:** Based on the 100 simulations, the probability that your account balance will be greater than $1,000 at age 55 is **`r round(prob_above_1000 * 100, 1)`%**.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal><i class="bi"></i></button></div>
+<span id="cb14-302"><a href="#cb14-302" aria-hidden="true" tabindex="-1"></a>**Based on the 100 simulations above, what is the probability that your account balance will be greater than $1,000 at age 55?**</span>
+<span id="cb14-303"><a href="#cb14-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-304"><a href="#cb14-304" aria-hidden="true" tabindex="-1"></a><span class="in">```{r probability-analysis}</span></span>
+<span id="cb14-305"><a href="#cb14-305" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate probability of ending with more than $1,000</span></span>
+<span id="cb14-306"><a href="#cb14-306" aria-hidden="true" tabindex="-1"></a>prob_above_1000 <span class="ot">&lt;-</span> <span class="fu">mean</span>(final_wealths <span class="sc">&gt;</span> initial_wealth)</span>
+<span id="cb14-307"><a href="#cb14-307" aria-hidden="true" tabindex="-1"></a>prob_below_1000 <span class="ot">&lt;-</span> <span class="fu">mean</span>(final_wealths <span class="sc">&lt;</span> initial_wealth)</span>
+<span id="cb14-308"><a href="#cb14-308" aria-hidden="true" tabindex="-1"></a>prob_equal_1000 <span class="ot">&lt;-</span> <span class="fu">mean</span>(final_wealths <span class="sc">==</span> initial_wealth)</span>
+<span id="cb14-309"><a href="#cb14-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-310"><a href="#cb14-310" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate additional probability metrics</span></span>
+<span id="cb14-311"><a href="#cb14-311" aria-hidden="true" tabindex="-1"></a>prob_above_5000 <span class="ot">&lt;-</span> <span class="fu">mean</span>(final_wealths <span class="sc">&gt;</span> <span class="dv">5000</span>)</span>
+<span id="cb14-312"><a href="#cb14-312" aria-hidden="true" tabindex="-1"></a>prob_above_10000 <span class="ot">&lt;-</span> <span class="fu">mean</span>(final_wealths <span class="sc">&gt;</span> <span class="dv">10000</span>)</span>
+<span id="cb14-313"><a href="#cb14-313" aria-hidden="true" tabindex="-1"></a>prob_below_100 <span class="ot">&lt;-</span> <span class="fu">mean</span>(final_wealths <span class="sc">&lt;</span> <span class="dv">100</span>)</span>
+<span id="cb14-314"><a href="#cb14-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-315"><a href="#cb14-315" aria-hidden="true" tabindex="-1"></a><span class="co"># Create probability summary</span></span>
+<span id="cb14-316"><a href="#cb14-316" aria-hidden="true" tabindex="-1"></a>probability_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb14-317"><a href="#cb14-317" aria-hidden="true" tabindex="-1"></a>  <span class="at">Condition =</span> <span class="fu">c</span>(<span class="st">&quot;Greater than $1,000&quot;</span>, <span class="st">&quot;Less than $1,000&quot;</span>, <span class="st">&quot;Equal to $1,000&quot;</span>, </span>
+<span id="cb14-318"><a href="#cb14-318" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;Greater than $5,000&quot;</span>, <span class="st">&quot;Greater than $10,000&quot;</span>, <span class="st">&quot;Less than $100&quot;</span>),</span>
+<span id="cb14-319"><a href="#cb14-319" aria-hidden="true" tabindex="-1"></a>  <span class="at">Probability =</span> <span class="fu">c</span>(prob_above_1000, prob_below_1000, prob_equal_1000,</span>
+<span id="cb14-320"><a href="#cb14-320" aria-hidden="true" tabindex="-1"></a>                  prob_above_5000, prob_above_10000, prob_below_100),</span>
+<span id="cb14-321"><a href="#cb14-321" aria-hidden="true" tabindex="-1"></a>  <span class="at">Percentage =</span> <span class="fu">c</span>(prob_above_1000, prob_below_1000, prob_equal_1000,</span>
+<span id="cb14-322"><a href="#cb14-322" aria-hidden="true" tabindex="-1"></a>                 prob_above_5000, prob_above_10000, prob_below_100) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb14-323"><a href="#cb14-323" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-324"><a href="#cb14-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-325"><a href="#cb14-325" aria-hidden="true" tabindex="-1"></a><span class="co"># Format the probabilities</span></span>
+<span id="cb14-326"><a href="#cb14-326" aria-hidden="true" tabindex="-1"></a>probability_summary<span class="sc">$</span>Probability <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="fu">round</span>(probability_summary<span class="sc">$</span>Probability, <span class="dv">3</span>))</span>
+<span id="cb14-327"><a href="#cb14-327" aria-hidden="true" tabindex="-1"></a>probability_summary<span class="sc">$</span>Percentage <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="fu">round</span>(probability_summary<span class="sc">$</span>Percentage, <span class="dv">1</span>), <span class="st">&quot;%&quot;</span>)</span>
+<span id="cb14-328"><a href="#cb14-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-329"><a href="#cb14-329" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(probability_summary,</span>
+<span id="cb14-330"><a href="#cb14-330" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Probability Analysis of Final Account Balances&quot;</span>,</span>
+<span id="cb14-331"><a href="#cb14-331" aria-hidden="true" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Condition&quot;</span>, <span class="st">&quot;Probability&quot;</span>, <span class="st">&quot;Percentage&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb14-332"><a href="#cb14-332" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>),</span>
+<span id="cb14-333"><a href="#cb14-333" aria-hidden="true" tabindex="-1"></a>                <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb14-334"><a href="#cb14-334" aria-hidden="true" tabindex="-1"></a>                <span class="at">position =</span> <span class="st">&quot;center&quot;</span>)</span>
+<span id="cb14-335"><a href="#cb14-335" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-336"><a href="#cb14-336" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Key Result: The probability of ending with more than $1,000 is &quot;</span>, </span>
+<span id="cb14-337"><a href="#cb14-337" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(prob_above_1000 <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>), <span class="st">&quot;%</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb14-338"><a href="#cb14-338" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-339"><a href="#cb14-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-340"><a href="#cb14-340" aria-hidden="true" tabindex="-1"></a>**Answer:** Based on the 100 simulations, the probability that your account balance will be greater than $1,000 at age 55 is **`r round(prob_above_1000 * 100, 1)`%**. This probability is not not high at all, barely better than a 1 in 4 chance. It way more likely to end up with a balance less than $1,000. This is a low probability, but it is not a guarantee. It is possible to end up with a balance greater than $1,000, with the probability of having a balnce over $10,000 being a mere 0.04%.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

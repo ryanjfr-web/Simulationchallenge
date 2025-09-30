@@ -1,725 +1,340 @@
 ---
-title: "Simulation Challenge"
+title: "Simulation Challenge - Ryan Freer"
 subtitle: "Generative Models and Monte Carlo Simulation"
 format:
-  html: default
-  pdf: default
+  html: 
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-tools: true
+    embed-resources: true
 execute:
   echo: false
   eval: true
+  warning: false
+  message: false
 ---
-```{r}
-library(reticulate)
-use_python("C:/Users/ryanf/Desktop/Python311/python.exe", required = TRUE)
-```
 
-# 🎲 Simulation Challenge - Monte Carlo Analysis
+# Game Strategy Analysis
+
+## Problem Statement
+
+Imagine you are offered the following game and given a $1,000 budget in a special account to play the game: I will flip a coin, and if it comes up heads, we increase your account's balance by 50%; if it comes up tails, we reduce your account's balance by 40%. We are not only doing this once, but we will do it once per year until you turn 55. When you turn 55, you will receive the balance in your account.
+
+## Generative Model
+
+The game follows this DAG model:
+
+- **t = 1, ..., N** (years until age 55)
+- **Initial Wealth**: W₀ = 1000
+- **Coin Flip t**: Cₜ ~ Bernoulli(0.5)
+- **Wealth t**: 
+  - Wₜ = 1.5 × Wₜ₋₁ if Cₜ = 1 (heads)
+  - Wₜ = 0.6 × Wₜ₋₁ if Cₜ = 0 (tails)
 
 
-**Your Mission:** Create a comprehensive Quarto document that simulates one or two investment strategies, analyzes the results, and demonstrates your ability to present counter-intuitive findings compellingly. Then render the document to HTML and deploy it via GitHub Pages from a new repository called "simulationChallenge."
 
-
-
-*Remember: Frequent commits are your safety net!*
-:::
-
-## R Pathway Solution 🎯
-
-This section provides a complete R implementation for all challenge questions. You can use this as a reference or starting point for your own analysis.
-
-### Setup and Libraries
-
-```{r}
-#| label: setup
-#| echo: true
-
-# Load required libraries
-suppressPackageStartupMessages({
-  library(tidyverse)
+```{r setup}
+# Load required libraries (install if needed)
+if (!require(ggplot2, quietly = TRUE)) {
+  install.packages("ggplot2")
   library(ggplot2)
+}
+
+if (!require(dplyr, quietly = TRUE)) {
+  install.packages("dplyr")
+  library(dplyr)
+}
+
+if (!require(knitr, quietly = TRUE)) {
+  install.packages("knitr")
+  library(knitr)
+}
+
+if (!require(kableExtra, quietly = TRUE)) {
+  install.packages("kableExtra")
+  library(kableExtra)
+}
+
+if (!require(scales, quietly = TRUE)) {
+  install.packages("scales")
   library(scales)
-})
+}
+
+if (!require(gridExtra, quietly = TRUE)) {
+  install.packages("gridExtra")
+  library(gridExtra)
+}
 
 # Set seed for reproducibility
 set.seed(123)
-```
 
-### Question 1: Expected Value Analysis
-
-```{r}
-#| label: expected-value
-#| echo: true
-#| fig-cap: Expected value calculation for the investment game
-
-# Parameters for the original game
+# Simulation parameters
 initial_wealth <- 1000
-heads_multiplier <- 1.5  # +50% gain
-tails_multiplier <- 0.6  # -40% loss
-probability_heads <- 0.5
+num_simulations <- 100
+max_years <- 30  # Assuming starting at age 25, playing until 55
 
-# Calculate expected value after one coin flip
-expected_value_one_flip <- probability_heads * (initial_wealth * heads_multiplier) + 
-                          (1 - probability_heads) * (initial_wealth * tails_multiplier)
-
-# Calculate expected return rate
-expected_return_rate <- (expected_value_one_flip - initial_wealth) / initial_wealth
-
-cat("Expected value after 1 coin flip: $", round(expected_value_one_flip, 2), "\n")
-cat("Expected return rate: ", round(expected_return_rate * 100, 2), "%\n")
-cat("Is expected value positive? ", expected_value_one_flip > initial_wealth, "\n")
-```
-
-### Question 2: Expectation vs. Reality Analysis
-
-```{r}
-#| label: expectation-analysis
-#| echo: true
-
-cat("ANALYSIS:\n")
-cat("=========\n")
-cat("Expected value: $", round(expected_value_one_flip, 2), "\n")
-cat("Initial wealth: $", initial_wealth, "\n")
-cat("Difference: $", round(expected_value_one_flip - initial_wealth, 2), "\n\n")
-
-if (expected_value_one_flip > initial_wealth) {
-  cat("The expected value is POSITIVE, suggesting the game is favorable.\n")
-  cat("However, this is misleading because it doesn't account for the multiplicative nature of the game.\n")
-  cat("In reality, the geometric mean return is what matters for long-term wealth growth.\n")
-} else {
-  cat("The expected value is NEGATIVE, suggesting the game is unfavorable.\n")
-}
-
-# Calculate geometric mean return
-geometric_mean_return <- sqrt(heads_multiplier * tails_multiplier)
-cat("\nGeometric mean return per flip:", round(geometric_mean_return, 4), "\n")
-cat("This means wealth will DECLINE over time (geometric mean < 1)\n")
-```
-
-### Question 3: Single Simulation
-
-```{r}
-#| label: single-simulation
-#| echo: true
-#| fig-cap: Single simulation showing wealth evolution over time
-
-# Function to simulate one path
-simulate_investment_path <- function(initial_wealth, n_periods, heads_mult, tails_mult) {
-  wealth <- initial_wealth
-  path <- numeric(n_periods + 1)
-  path[1] <- initial_wealth
+# Function to simulate one game
+simulate_game <- function(initial_wealth, years) {
+  wealth <- numeric(years + 1)
+  wealth[1] <- initial_wealth
   
-  for (i in 1:n_periods) {
-    coin_flip <- rbinom(1, 1, 0.5)
+  for (i in 1:years) {
+    coin_flip <- rbinom(1, 1, 0.5)  # 1 for heads, 0 for tails
     if (coin_flip == 1) {
-      wealth <- wealth * heads_mult
+      wealth[i + 1] <- wealth[i] * 1.5  # 50% increase
     } else {
-      wealth <- wealth * tails_mult
+      wealth[i + 1] <- wealth[i] * 0.6  # 40% decrease
     }
-    path[i + 1] <- wealth
   }
   
-  return(path)
+  return(wealth)
 }
-
-# Simulate one path (assuming 35 years from age 20 to 55)
-n_periods <- 35
-single_path <- simulate_investment_path(initial_wealth, n_periods, heads_multiplier, tails_multiplier)
-
-# Create data frame for plotting
-simulation_data <- tibble(
-  age = 20:(20 + n_periods),
-  wealth = single_path
-)
-
-# Create time series plot
-ggplot(simulation_data, aes(x = age, y = wealth)) +
-  geom_line(color = "steelblue", linewidth = 1.2) +
-  geom_point(color = "darkblue", size = 2) +
-  geom_hline(yintercept = initial_wealth, color = "red", linetype = "dashed", linewidth = 1) +
-  labs(
-    title = "Investment Game: Single Simulation Path",
-    subtitle = "Wealth Evolution from Age 20 to 55",
-    x = "Age",
-    y = "Account Balance ($)",
-    caption = "Red line shows initial investment ($1,000)"
-  ) +
-  scale_y_continuous(labels = dollar_format()) +
-  theme_minimal() +
-  theme(
-    plot.title = element_text(size = 14, face = "bold"),
-    plot.subtitle = element_text(size = 12, color = "gray50"),
-    axis.text = element_text(size = 10)
-  )
-
-# Show final results
-cat("SINGLE SIMULATION RESULTS:\n")
-cat("==========================\n")
-cat("Initial wealth: $", initial_wealth, "\n")
-cat("Final wealth: $", round(single_path[length(single_path)], 2), "\n")
-cat("Total return: ", round((single_path[length(single_path)] / initial_wealth - 1) * 100, 2), "%\n")
-cat("Are you happy? ", ifelse(single_path[length(single_path)] > initial_wealth, "YES!", "NO..."), "\n")
 ```
 
-### Question 4: Multiple Simulations (100 runs)
 
-```{r}
-#| label: multiple-simulations
-#| echo: true
-#| fig-cap: Distribution of final wealth from 100 simulations
 
+```{r simulation}
 # Run 100 simulations
-n_simulations <- 100
-final_wealths <- numeric(n_simulations)
+simulation_results <- list()
+final_wealths <- numeric(num_simulations)
 
-for (i in 1:n_simulations) {
-  path <- simulate_investment_path(initial_wealth, n_periods, heads_multiplier, tails_multiplier)
-  final_wealths[i] <- path[length(path)]
+for (i in 1:num_simulations) {
+  wealth_path <- simulate_game(initial_wealth, max_years)
+  simulation_results[[i]] <- wealth_path
+  final_wealths[i] <- wealth_path[length(wealth_path)]
 }
 
 # Create data frame for analysis
-simulation_results <- tibble(
-  simulation = 1:n_simulations,
-  final_wealth = final_wealths
+simulation_df <- data.frame(
+  simulation = rep(1:num_simulations, each = max_years + 1),
+  year = rep(0:max_years, num_simulations),
+  wealth = unlist(simulation_results)
 )
+```
 
-# Create histogram
-ggplot(simulation_results, aes(x = final_wealth)) +
-  geom_histogram(bins = 20, fill = "lightcoral", alpha = 0.8, color = "black") +
-  geom_vline(xintercept = initial_wealth, color = "red", linetype = "dashed", linewidth = 1.5) +
-  geom_vline(xintercept = mean(final_wealths), color = "blue", linetype = "solid", linewidth = 1) +
-  labs(
-    title = "Distribution of Final Wealth (100 Simulations)",
-    subtitle = "Investment Game from Age 20 to 55",
-    x = "Final Wealth ($)",
-    y = "Frequency",
-    caption = "Red line: Initial investment ($1,000)\nBlue line: Mean final wealth"
-  ) +
-  scale_x_continuous(labels = dollar_format(), trans = "log10") +
+
+
+### Single Simulation
+
+```{r single-simulation}
+# Plot one simulation trajectory
+single_sim <- simulate_game(initial_wealth, max_years)
+
+ggplot(data.frame(year = 0:max_years, wealth = single_sim), aes(x = year, y = wealth)) +
+  geom_line(color = "steelblue", size = 1) +
+  geom_hline(yintercept = initial_wealth, color = "red", linetype = "dashed", size = 1) +
+  scale_y_continuous(labels = dollar_format()) +
+  labs(title = "Single Simulation Trajectory",
+       subtitle = "Red line indicates initial investment of $1,000",
+       x = "Year",
+       y = "Wealth ($)") +
   theme_minimal() +
-  theme(
-    plot.title = element_text(size = 14, face = "bold"),
-    plot.subtitle = element_text(size = 12, color = "gray50")
-  )
+  theme(plot.title = element_text(size = 14, face = "bold"),
+        plot.subtitle = element_text(size = 12))
+```
+
+### Multiple Simulations
+
+```{r multiple-simulations}
+# Plot sample of wealth trajectories
+sample_sims <- sample(1:num_simulations, min(20, num_simulations))
+
+trajectory_df <- simulation_df %>%
+  filter(simulation %in% sample_sims)
+
+ggplot(trajectory_df, aes(x = year, y = wealth, group = simulation)) +
+  geom_line(alpha = 0.6, color = "steelblue") +
+  geom_hline(yintercept = initial_wealth, color = "red", linetype = "dashed", size = 1) +
+  scale_y_continuous(labels = dollar_format(), trans = "log10") +
+  labs(title = "Sample Wealth Trajectories (Log Scale)",
+       subtitle = "Red line indicates initial investment of $1,000",
+       x = "Year",
+       y = "Wealth ($)") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 14, face = "bold"),
+        plot.subtitle = element_text(size = 12))
+```
+
+### Final Wealth Distribution
+
+```{r wealth-distribution}
+# Create histogram of final wealths
+ggplot(data.frame(final_wealth = final_wealths), aes(x = final_wealth)) +
+  geom_histogram(bins = 20, fill = "steelblue", alpha = 0.7, color = "white") +
+  geom_vline(xintercept = initial_wealth, color = "red", linetype = "dashed", size = 1) +
+  scale_x_continuous(labels = dollar_format()) +
+  labs(title = "Distribution of Final Wealth",
+       subtitle = "Red line indicates initial investment of $1,000",
+       x = "Final Wealth ($)",
+       y = "Frequency") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 14, face = "bold"),
+        plot.subtitle = element_text(size = 12))
+```
+
+## Questions and Analysis
+
+### Question 1: Expected Value Analysis
+
+**What is the "expected value" of your account balance after 1 coin flip for the original game?**
+
+```{r expected-value-one-flip}
+# Calculate expected value after 1 coin flip
+# E[W1] = 0.5 * (1.5 * W0) + 0.5 * (0.6 * W0)
+# E[W1] = 0.5 * 1.5 * 1000 + 0.5 * 0.6 * 1000
+# E[W1] = 0.75 * 1000 + 0.3 * 1000 = 750 + 300 = 1050
+
+expected_value_one_flip <- 0.5 * 1.5 * initial_wealth + 0.5 * 0.6 * initial_wealth
+expected_value_one_flip
+
+# Also calculate the expected return rate
+expected_return_rate <- (expected_value_one_flip - initial_wealth) / initial_wealth
+expected_return_rate
+```
+
+**Answer:** The expected value after 1 coin flip is $`r format(round(expected_value_one_flip, 2), big.mark = ",")`, representing a `r round(expected_return_rate * 100, 1)`% expected return. This return is small compared to the initial investment of $1000. However it is just the simulation of one flip. It is not guaranteed to be positive. We would need to run more simulations to get a more accurate representation.
+
+### Question 2: Expectation vs. Reality
+
+**Is the expected value positive or negative? Do you expect your account to be worth more or less than $1,000 based on this result?**
+
+```{r expectation-analysis}
+# Calculate expected value after 30 years (age 25 to 55)
+# Each year has expected return of 5%, so after 30 years:
+# E[W30] = 1000 * (1.05)^30
+
+expected_value_30_years <- initial_wealth * (1.05)^30
+expected_value_30_years
+
+# Calculate the expected annual return
+annual_expected_return <- 0.5 * 1.5 + 0.5 * 0.6 - 1
+annual_expected_return
+```
+
+**Answer:** The expected value is **positive**. Each year, the expected return is `r round(annual_expected_return * 100, 1)`%, so after 30 years, the expected account balance would be $`r format(round(expected_value_30_years, 2), big.mark = ",")`. This is significantly more than the initial invesment of $1000.
+
+### Question 3: Single Simulation
+
+**Run one simulation showing the dynamics of your account balance over time. Make an object-oriented ggplot2 plot showing your simulated account balance over time (i.e. as you age). Comment on the results, are you happy?**
+
+```{r single-simulation-detailed}
+# Run a single simulation
+set.seed(42)  # For reproducible example
+single_simulation <- simulate_game(initial_wealth, max_years)
+
+# Create detailed plot
+single_plot <- ggplot(data.frame(year = 0:max_years, wealth = single_simulation), 
+                      aes(x = year, y = wealth)) +
+  geom_line(color = "steelblue", size = 1.2) +
+  geom_point(color = "darkblue", size = 1) +
+  geom_hline(yintercept = initial_wealth, color = "red", linetype = "dashed", size = 1) +
+  scale_y_continuous(labels = dollar_format(), trans = "log10") +
+  scale_x_continuous(breaks = seq(0, max_years, 5)) +
+  labs(title = "Single Simulation: Account Balance Over Time",
+       subtitle = paste("Final balance: $", format(round(single_simulation[length(single_simulation)], 2), big.mark = ",")),
+       x = "Years (Age 25 to 55)",
+       y = "Account Balance ($)") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 16, face = "bold"),
+        plot.subtitle = element_text(size = 14, color = "darkblue"),
+        axis.title = element_text(size = 12),
+        panel.grid.minor = element_blank())
+
+# Print the plot
+print(single_plot)
+
+# Also save as PNG for easy viewing
+ggsave("single_simulation_plot.png", single_plot, width = 10, height = 6, dpi = 300)
+
+# Show final result
+final_balance <- single_simulation[length(single_simulation)]
+cat("Final account balance: $", format(round(final_balance, 2), big.mark = ","), "\n")
+cat("Total return: ", round((final_balance - initial_wealth) / initial_wealth * 100, 1), "%\n")
+```
+
+**Analysis:** The single simulation shows an extremely positive return, but the return is not guaranteed. It is possible to lose money as seen in the next question with 100 simulations. The expected value is positive, but the return is not guaranteed wiht many outliers like this one that will prop up the mean balance. 
+
+### Question 4: Multiple Simulations
+
+**Run 100 simulations modelling the dynamics of your account balance over time. Make an object-oriented ggplot2 plot showing a probability distribution of the 100 simulated account balance at age 55. Comment on the results, are you happy? Why or why not?**
+
+```{r multiple-simulations-detailed}
+# Create detailed probability distribution plot
+distribution_plot <- ggplot(data.frame(final_wealth = final_wealths), aes(x = final_wealth)) +
+  geom_histogram(bins = 25, fill = "steelblue", alpha = 0.7, color = "white", size = 0.3) +
+  geom_vline(xintercept = initial_wealth, color = "red", linetype = "dashed", size = 1.2) +
+  geom_vline(xintercept = mean(final_wealths), color = "darkgreen", linetype = "solid", size = 1.2) +
+  scale_x_continuous(labels = dollar_format(), trans = "log10") +
+  labs(title = "Distribution of Final Account Balances (100 Simulations)",
+       subtitle = paste("Mean: $", format(round(mean(final_wealths), 2), big.mark = ","), 
+                        "| Median: $", format(round(median(final_wealths), 2), big.mark = ",")),
+       x = "Final Account Balance at Age 55 ($)",
+       y = "Frequency",
+       caption = "Red dashed line: Initial investment ($1,000)\nGreen solid line: Mean final balance") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 16, face = "bold"),
+        plot.subtitle = element_text(size = 14, color = "darkblue"),
+        axis.title = element_text(size = 12),
+        plot.caption = element_text(size = 10, hjust = 0),
+        panel.grid.minor = element_blank())
+
+# Print the plot
+print(distribution_plot)
+
+# Also save as PNG for easy viewing
+ggsave("distribution_plot.png", distribution_plot, width = 10, height = 6, dpi = 300)
 
 # Summary statistics
-summary_stats <- simulation_results %>%
-  summarise(
-    mean_wealth = mean(final_wealth),
-    median_wealth = median(final_wealth),
-    min_wealth = min(final_wealth),
-    max_wealth = max(final_wealth),
-    prob_above_initial = mean(final_wealth > initial_wealth)
-  )
-
-cat("MULTIPLE SIMULATIONS RESULTS (100 runs):\n")
-cat("========================================\n")
-print(summary_stats)
-
-cat("\nAre you happy with these results?\n")
-cat("The median wealth is $", round(median(final_wealths), 2), 
-    " which is ", ifelse(median(final_wealths) > initial_wealth, "above", "below"), 
-    " the initial investment.\n")
-cat("Only ", round(mean(final_wealths > initial_wealth) * 100, 1), 
-    "% of simulations resulted in wealth above the initial $1,000.\n")
+cat("Summary Statistics (100 Simulations):\n")
+cat("Mean final balance: $", format(round(mean(final_wealths), 2), big.mark = ","), "\n")
+cat("Median final balance: $", format(round(median(final_wealths), 2), big.mark = ","), "\n")
+cat("Standard deviation: $", format(round(sd(final_wealths), 2), big.mark = ","), "\n")
+cat("Minimum final balance: $", format(round(min(final_wealths), 2), big.mark = ","), "\n")
+cat("Maximum final balance: $", format(round(max(final_wealths), 2), big.mark = ","), "\n")
 ```
+
+**Analysis:** The mean balance is higher than the initial investment of $1000. However, there are many outliers that are much higher than the mean. This is evident by seing how low the median balance is compared to the mean. It is likely that one will end up with a balance much lower than the mean, and lower than the initial investment of $1000.
 
 ### Question 5: Probability Analysis
 
-```{r}
-#| label: probability-analysis
-#| echo: true
+**Based on the 100 simulations above, what is the probability that your account balance will be greater than $1,000 at age 55?**
 
-# Calculate probability of wealth > $1,000 at age 55
-prob_above_1000 <- mean(final_wealths > 1000)
+```{r probability-analysis}
+# Calculate probability of ending with more than $1,000
+prob_above_1000 <- mean(final_wealths > initial_wealth)
+prob_below_1000 <- mean(final_wealths < initial_wealth)
+prob_equal_1000 <- mean(final_wealths == initial_wealth)
 
-cat("PROBABILITY ANALYSIS:\n")
-cat("====================\n")
-cat("Probability of wealth > $1,000 at age 55: ", round(prob_above_1000, 3), "\n")
-cat("This means there's a ", round(prob_above_1000 * 100, 1), 
-    "% chance of having more than your initial investment.\n")
-cat("Conversely, there's a ", round((1 - prob_above_1000) * 100, 1), 
-    "% chance of losing money.\n")
-
-# Additional probability insights
+# Calculate additional probability metrics
 prob_above_5000 <- mean(final_wealths > 5000)
 prob_above_10000 <- mean(final_wealths > 10000)
+prob_below_100 <- mean(final_wealths < 100)
 
-cat("\nAdditional probabilities:\n")
-cat("P(wealth > $5,000): ", round(prob_above_5000, 3), "\n")
-cat("P(wealth > $10,000): ", round(prob_above_10000, 3), "\n")
-```
-
-### Question 6: Modified Strategy Comparison
-
-```{r}
-#| label: modified-strategy
-#| echo: true
-#| fig-cap: Comparison between original and modified strategies
-
-# Modified strategy: bet exactly 50% of current balance each time
-simulate_modified_strategy <- function(initial_wealth, n_periods) {
-  wealth <- initial_wealth
-  path <- numeric(n_periods + 1)
-  path[1] <- initial_wealth
-  
-  for (i in 1:n_periods) {
-    # Bet exactly 50% of current wealth
-    bet_amount <- wealth * 0.5
-    remaining_wealth <- wealth - bet_amount
-    
-    coin_flip <- rbinom(1, 1, 0.5)
-    if (coin_flip == 1) {
-      # Win: bet increases by 50%
-      bet_result <- bet_amount * 1.5
-    } else {
-      # Lose: bet decreases by 40%
-      bet_result <- bet_amount * 0.6
-    }
-    
-    wealth <- remaining_wealth + bet_result
-    path[i + 1] <- wealth
-  }
-  
-  return(path)
-}
-
-# Run 100 simulations for modified strategy
-modified_final_wealths <- numeric(n_simulations)
-
-for (i in 1:n_simulations) {
-  path <- simulate_modified_strategy(initial_wealth, n_periods)
-  modified_final_wealths[i] <- path[length(path)]
-}
-
-# Create comparison data frame
-comparison_data <- tibble(
-  strategy = rep(c("Original", "Modified"), each = n_simulations),
-  final_wealth = c(final_wealths, modified_final_wealths)
+# Create probability summary
+probability_summary <- data.frame(
+  Condition = c("Greater than $1,000", "Less than $1,000", "Equal to $1,000", 
+                "Greater than $5,000", "Greater than $10,000", "Less than $100"),
+  Probability = c(prob_above_1000, prob_below_1000, prob_equal_1000,
+                  prob_above_5000, prob_above_10000, prob_below_100),
+  Percentage = c(prob_above_1000, prob_below_1000, prob_equal_1000,
+                 prob_above_5000, prob_above_10000, prob_below_100) * 100
 )
 
-# Create comparison plot
-ggplot(comparison_data, aes(x = final_wealth, fill = strategy)) +
-  geom_histogram(alpha = 0.7, bins = 20, position = "identity") +
-  geom_vline(xintercept = 1000, color = "red", linetype = "dashed", linewidth = 1) +
-  geom_vline(xintercept = 10000, color = "green", linetype = "dashed", linewidth = 1) +
-  facet_wrap(~strategy, ncol = 1) +
-  labs(
-    title = "Strategy Comparison: Final Wealth Distributions",
-    subtitle = "Original vs Modified Investment Strategies",
-    x = "Final Wealth ($)",
-    y = "Frequency",
-    caption = "Red line: $1,000 threshold\nGreen line: $10,000 threshold"
-  ) +
-  scale_x_continuous(labels = dollar_format(), trans = "log10") +
-  theme_minimal() +
-  theme(
-    plot.title = element_text(size = 14, face = "bold"),
-    plot.subtitle = element_text(size = 12, color = "gray50"),
-    legend.position = "none"
-  )
+# Format the probabilities
+probability_summary$Probability <- paste0(round(probability_summary$Probability, 3))
+probability_summary$Percentage <- paste0(round(probability_summary$Percentage, 1), "%")
 
-# Calculate probabilities for modified strategy
-prob_above_1000_modified <- mean(modified_final_wealths > 1000)
-prob_above_10000_modified <- mean(modified_final_wealths > 10000)
+kable(probability_summary,
+      caption = "Probability Analysis of Final Account Balances",
+      col.names = c("Condition", "Probability", "Percentage")) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                full_width = FALSE,
+                position = "center")
 
-cat("MODIFIED STRATEGY COMPARISON:\n")
-cat("============================\n")
-cat("Original Strategy:\n")
-cat("  P(wealth > $1,000): ", round(prob_above_1000, 3), "\n")
-cat("  P(wealth > $10,000): ", round(prob_above_10000, 3), "\n\n")
-
-cat("Modified Strategy:\n")
-cat("  P(wealth > $1,000): ", round(prob_above_1000_modified, 3), "\n")
-cat("  P(wealth > $10,000): ", round(prob_above_10000_modified, 3), "\n\n")
-
-cat("COMPARISON:\n")
-cat("P(wealth > $10,000) is ", 
-    ifelse(prob_above_10000_modified > prob_above_10000, "HIGHER", "LOWER"), 
-    " in the modified strategy.\n")
-cat("Difference: ", round((prob_above_10000_modified - prob_above_10000) * 100, 1), " percentage points\n")
+cat("\nKey Result: The probability of ending with more than $1,000 is ", 
+    round(prob_above_1000 * 100, 1), "%\n")
 ```
 
-### Summary and Insights
-
-```{r}
-#| label: summary-insights
-#| echo: true
-
-cat("KEY INSIGHTS FROM THE SIMULATION:\n")
-cat("=================================\n\n")
-
-cat("1. EXPECTED VALUE DECEPTION:\n")
-cat("   - Expected value suggests the game is favorable\n")
-cat("   - But geometric mean shows wealth will decline over time\n")
-cat("   - This is a classic example of why expected value can be misleading\n\n")
-
-cat("2. PROBABILITY OF SUCCESS:\n")
-cat("   - Only ", round(prob_above_1000 * 100, 1), "% chance of beating initial investment\n")
-cat("   - ", round((1 - prob_above_1000) * 100, 1), "% chance of losing money\n\n")
-
-cat("3. STRATEGY COMPARISON:\n")
-cat("   - Modified strategy (betting 50%) shows different risk profile\n")
-cat("   - P(wealth > $10,000): Original = ", round(prob_above_10000, 3), 
-    ", Modified = ", round(prob_above_10000_modified, 3), "\n\n")
-
-cat("4. SIMULATION WISDOM:\n")
-cat("   - Simulation reveals the true nature of multiplicative processes\n")
-cat("   - Intuition often fails with compound effects\n")
-cat("   - Always run simulations to understand complex systems!\n")
-```
-
-## Essential Simulation Concepts 🎯 {#sec-simulation-concepts}
-
-Before diving into the challenge, let's review the key simulation concepts you'll need. These examples will prepare you for the investment game analysis.
-
-### 1. Simple Simulation: Coin Flip Game
-
-Let's start with a basic coin flip simulation to understand the mechanics:
-
-
-::: {.panel-tabset}
-
-### R
-
-```{r}
-#| label: simple-sim-r
-#| fig-cap: R simulation of coin flip game
-#| echo: true
-
-suppressPackageStartupMessages(library(tidyverse))
-
-# Set seed for reproducibility
-set.seed(123)
-
-# Number of simulations
-n_sims <- 10
-
-# Create simulation data
-sim_data <- tibble(
-  sim_num = 1:n_sims,
-  coin_flip = rbinom(n = n_sims, size = 1, prob = 0.5)
-) %>%
-  mutate(
-    winnings = if_else(coin_flip == 1, 100, -100)
-  )
-
-# Display results
-sim_data
-```
-
-### Python
-
-```{python}
-#| label: simple-sim-python
-#| fig-cap: Python simulation of coin flip game
-#| echo: true
-
-import numpy as np
-import pandas as pd
-
-# Set seed for reproducibility
-np.random.seed(123)
-
-# Number of simulations
-n_sims = 10
-
-# Step 1: Draw coin flips (stochastic node)
-X = np.random.binomial(n=1, p=0.5, size=n_sims)
-
-# Step 2: Compute winnings (deterministic node)
-W = np.where(X == 1, 100, -100)
-
-# Combine into data frame
-sim_data = pd.DataFrame({
-    'sim_num': range(1, n_sims + 1),
-    'coin_flip': X,
-    'winnings': W
-})
-
-# Display results
-sim_data
-```
-
-:::
-
-### 2. Time-Series Simulation: Account Balance Over Time
-
-Now let's simulate how an account balance changes over multiple periods:
-
-
-::: {.panel-tabset}
-
-### R
-
-```{r}
-#| label: timeseries-sim-r
-#| fig-cap: R time-series simulation of account balance
-#| echo: true
-
-suppressPackageStartupMessages(library(tidyverse))
-suppressPackageStartupMessages(library(ggplot2))
-
-# Set seed for reproducibility
-set.seed(456)
-
-# Parameters
-initial_balance <- 1000
-n_periods <- 10
-n_sims <- 1  # Start with one simulation
-
-# Simulate one path
-simulate_path <- function(initial, periods) {
-  balance <- initial
-  path <- numeric(periods + 1)
-  path[1] <- initial
-  
-  for (i in 1:periods) {
-    coin_flip <- rbinom(1, 1, 0.5)
-    if (coin_flip == 1) {
-      balance <- balance + 100
-    } else {
-      balance <- balance - 100
-    }
-    path[i + 1] <- balance
-  }
-  
-  return(path)
-}
-
-# Run simulation
-time_series_data <- tibble(
-  period = 0:n_periods,
-  balance = simulate_path(initial_balance, n_periods)
-)
-
-# Create time series plot
-ggplot(time_series_data, aes(x = period, y = balance)) +
-  geom_line(color = "cadetblue", linewidth = 1.2) +
-  geom_point(color = "darkblue", size = 2) +
-  labs(
-    title = "Account Balance Over Time",
-    subtitle = "Single Simulation Path",
-    x = "Period",
-    y = "Account Balance ($)",
-    caption = "Heads: +$100$, Tails: -$100$"
-  ) +
-  scale_y_continuous(labels = scales::dollar_format()) +
-  theme_minimal() +
-  theme(
-    plot.title = element_text(size = 14, face = "bold"),
-    plot.subtitle = element_text(size = 12, color = "gray50")
-  )
-
-# Show the data
-time_series_data
-```
-
-### Python
-
-```{python}
-#| label: timeseries-sim-python
-#| fig-cap: Python time-series simulation of account balance
-#| echo: true
-
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-
-# Set seed for reproducibility
-np.random.seed(456)
-
-# Parameters
-initial_balance = 1000
-n_periods = 10
-n_sims = 1  # Start with one simulation
-
-# Simulate one path
-def simulate_path(initial, periods):
-    balance = initial
-    path = [initial]
-    
-    for i in range(periods):
-        coin_flip = np.random.binomial(1, 0.5)
-        if coin_flip == 1:
-            balance = balance + 100  # $100 gain
-        else:
-            balance = balance - 100  # $100 loss
-        path.append(balance)
-    
-    return path
-
-# Run simulation
-time_series_data = pd.DataFrame({
-    'period': range(n_periods + 1),
-    'balance': simulate_path(initial_balance, n_periods)
-})
-
-# Create time series plot
-fig, ax = plt.subplots(figsize=(10, 6))
-ax.plot(time_series_data['period'], time_series_data['balance'], 
-        color='cadetblue', linewidth=2, marker='o', markersize=6)
-ax.set_title('Account Balance Over Time\nSingle Simulation Path', 
-             fontsize=14, fontweight='bold')
-ax.set_xlabel('Period', fontsize=12)
-ax.set_ylabel('Account Balance ($)', fontsize=12)
-ax.grid(True, alpha=0.3)
-ax.set_ylim(0, max(time_series_data['balance']) * 1.1)
-
-# Format y-axis as currency
-ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: f'${x:,.0f}'))
-
-plt.tight_layout()
-plt.show()
-
-# Show the data
-print("Time Series Data:")
-print(time_series_data)
-```
-
-:::
-
-### 3. Probability Distribution: Final Balance Distribution
-
-Let's see what the distribution of final balances looks like across many simulations:
-
-::: {.panel-tabset}
-
-### R
-
-```{r}
-#| label: distribution-sim-r
-#| fig-cap: R probability distribution of final balances
-#| echo: true
-
-suppressPackageStartupMessages(library(tidyverse))
-suppressPackageStartupMessages(library(ggplot2))
-
-# Set seed for reproducibility
-set.seed(789)
-
-# Parameters
-initial_balance <- 1000
-n_periods <- 10
-n_sims <- 100  # Multiple simulations
-
-# Simulate multiple paths
-simulate_final_balance <- function(initial, periods) {
-  balance <- initial
-  for (i in 1:periods) {
-    coin_flip <- rbinom(1, 1, 0.5)
-    if (coin_flip == 1) {
-      balance <- balance + 100  # $100 gain
-    } else {
-      balance <- balance - 100  # $100 loss
-    }
-  }
-  return(balance)
-}
-
-# Run multiple simulations
-final_balances <- replicate(n_sims, simulate_final_balance(initial_balance, n_periods))
-
-# Create data frame
-distribution_data <- tibble(
-  sim_num = 1:n_sims,
-  final_balance = final_balances
-)
-
-# Create histogram
-ggplot(distribution_data, aes(x = final_balance)) +
-  geom_histogram(bins = 20, fill = "plum", alpha = 0.8, color = "black") +
-  geom_vline(xintercept = initial_balance, color = "red", linetype = "dashed", linewidth = 1) +
-  labs(
-    title = "Distribution of Final Account Balances",
-    subtitle = paste("100 Simulations,", n_periods, "Periods Each"),
-    x = "Final Balance ($)",
-    y = "Frequency",
-    caption = "Red line shows initial balance ($1,000)"
-  ) +
-  scale_x_continuous(labels = scales::dollar_format()) +
-  theme_minimal() +
-  theme(
-    plot.title = element_text(size = 14, face = "bold"),
-    plot.subtitle = element_text(size = 12, color = "gray50")
-  )
-
-# Summary statistics
-summary_stats <- distribution_data %>%
-  summarise(
-    mean_balance = mean(final_balance),
-    median_balance = median(final_balance),
-    prob_above_initial = mean(final_balance > initial_balance)
-  )
-
-print("Summary Statistics:")
-summary_stats
-```
-
-### Python
-
-```{python}
-#| label: distribution-sim-python
-#| fig-cap: Python probability distribution of final balances
-#| echo: true
-
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-
-# Set seed for reproducibility
-np.random.seed(789)
-
-# Parameters
-initial_balance = 1000
-n_periods = 10
-n_sims = 100  # Multiple simulations
-
-# Simulate multiple paths
-def simulate_final_balance(initial, periods):
-    balance = initial
-    for i in range(periods):
-        coin_flip = np.random.binomial(1, 0.5)
-        if coin_flip == 1:
-            balance = balance + 100  # $100 gain
-        else:
-            balance = balance - 100  # $100 loss
-    return balance
-
-# Run multiple simulations
-final_balances = [simulate_final_balance(initial_balance, n_periods) for _ in range(n_sims)]
-
-# Create data frame
-distribution_data = pd.DataFrame({
-    'sim_num': range(1, n_sims + 1),
-    'final_balance': final_balances
-})
-
-# Create histogram
-fig, ax = plt.subplots(figsize=(10, 6))
-ax.hist(distribution_data['final_balance'], bins=20, color='plum', alpha=0.8, edgecolor='black')
-ax.axvline(initial_balance, color='red', linestyle='--', linewidth=2, label='Initial Balance')
-ax.set_title(f'Distribution of Final Account Balances\n100 Simulations, {n_periods} Periods Each', 
-             fontsize=14, fontweight='bold')
-ax.set_xlabel('Final Balance ($)', fontsize=12)
-ax.set_ylabel('Frequency', fontsize=12)
-ax.legend()
-ax.grid(True, alpha=0.3)
-
-# Format x-axis as currency
-ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: f'${x:,.0f}'))
-
-plt.tight_layout()
-plt.show()
-
-# Summary statistics
-mean_balance = distribution_data['final_balance'].mean()
-median_balance = distribution_data['final_balance'].median()
-prob_above_initial = (distribution_data['final_balance'] > initial_balance).mean()
-
-print("Summary Statistics:")
-print(f"Mean balance: ${mean_balance:,.2f}")
-print(f"Median balance: ${median_balance:,.2f}")
-print(f"Probability above initial: {prob_above_initial:.3f}")
-```
-
-:::
+**Answer:** Based on the 100 simulations, the probability that your account balance will be greater than $1,000 at age 55 is **`r round(prob_above_1000 * 100, 1)`%**. This probability is not not high at all, barely better than a 1 in 4 chance. It way more likely to end up with a balance less than $1,000. This is a low probability, but it is not a guarantee. It is possible to end up with a balance greater than $1,000, with the probability of having a balnce over $10,000 being a mere 0.04%.
